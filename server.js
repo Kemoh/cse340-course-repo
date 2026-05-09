@@ -7,6 +7,9 @@ import path from "path";
 // Import the express package
 import express from "express";
 
+// Create the express app
+const app = express();
+
 // Defines the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLocaleLowerCase() || "production";
 
@@ -18,9 +21,6 @@ const __filename = fileURLToPath(import.meta.url);
 
 // Create directory
 const __dirname = path.dirname(__filename);
-
-// Create the express app
-const app = express();
 
 /* -------------------------------
 * Configure Express middleware
@@ -54,6 +54,12 @@ app.get("/organizations", async(req, res) => {
 app.get("/projects", async(req, res) => {
     const title = "Service Projects"
     res.render("projects", { title });
+});
+
+// Categories
+app.get("/categories", async(req, res) => {
+    const title = "Service Categories"
+    res.render("categories", { title });
 });
 
 
