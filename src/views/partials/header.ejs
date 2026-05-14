@@ -4,14 +4,32 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width", initial-scale="1.0">
         <title><%= title %></title>
+
+         <!-- External CSS -->
         <link rel="stylesheet" href="/css/main.css">
+
+         <!-- External JS -->
+        <script src="/js/scripts.js" defer></script>
     </head>
     <body>
         <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/organizations">Organizations</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/categories">Categories</a></li>
-            </ul>
-        </nav>
+            <!-- First row: logo + hamburger -->
+            <div class="nav-header">
+                <a href="/">
+                    <img class="main-logo" src="images/cse340-service-network.png" alt="CSE 340 Service Network Logo">
+                </a>
+                    
+                <button class="nav-toggle" aria-label="Hamburger Button"
+                aria-controls="navigation" aria-expanded="false">☰
+                </button>
+            </div>
+
+<!-- Second row: navigation links -->
+   <ul id="hamButton"
+   class="navigation">
+   <li><a href="/" aria-current="page">Home</a></li>
+    <li><a href="/organizations">Organizations</a></li>
+    <li><a href="/projects">Projects</a></li>
+    <li><a href="/categories">Categories</a></li>
+  </ul>
+</nav>
