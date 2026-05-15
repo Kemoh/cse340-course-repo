@@ -13,15 +13,21 @@
   --btn: #000;
   --hover: #009eb9;
   --h1-size: clamp(1.8rem, 3vw, 2.8rem);
-  --p-size: 1.1rem;
+  --p-size: clamp(1rem, 3vw, 1.3rem);
+  --footer-p: clamp(1rem, 3vw, 1rem);
   --p-height: 1.6;
   --h1-height: 1.2;
   --letter-spacing: -0.02em;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: var(--font);
-    margin: 0;
     background: var(--bg);
     color: #222;
     line-height: 1.6;
@@ -32,13 +38,12 @@ body {
     color: var(--accent); 
     line-height: var(--line-height);
     letter-spacing: var(--letter-spacing);
+    margin-bottom: 1rem;
 }
 
 h1 {
-    font-size: var(--h1-size);
-    margin: 0 0 0.5rem;
+    font-size: var(--h1-size);  
 }
-
 
 main {
     padding: 0 1rem;
@@ -116,6 +121,7 @@ nav {
 /* Home Page */
 .mission {
     padding: 1rem 1.1rem;
+    font-size: var(--p-size);
     background: var(--card);
     border: var(--border);
     border-radius: var(--radius);
@@ -136,11 +142,11 @@ nav {
 .organizations p {
     font-size: var(--p-size);
     line-height: var(--p-height);
+    margin-bottom: 35px;
 }
 
 .organizations ul, .projects ul, .category ul {
     display: grid;
-    grid-template-columns: 1fr;
     gap: 2rem;
     list-style-type: none;
     padding: 0;
@@ -150,6 +156,7 @@ nav {
     text-align: center;
     gap: 1rem;
     padding: 1rem 0;
+    font-size: var(--p-size);
     background: var(--card);
     border: var(--border);
     border-radius: var(--radius);
@@ -162,12 +169,25 @@ nav {
     padding: 1rem;
 }
 
-.organizations li:hover, .projects li:hover {
+.organizations li:hover, .projects li:hover, .category li:hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);
 }
 
+.category li {
+    font-weight: 500;
+}
 
+.organizations img {
+    width: 60px;
+    height: 60px;
+}
+
+footer {
+    margin-top: 1rem;
+    font-size: var(--footer-p);
+    padding: 1rem;
+}
 
 /* Tablet Device */
 @media only screen and (min-width: 768px) {
@@ -191,4 +211,41 @@ nav {
         }
     }
 
+    .organizations img {
+        width: 80px;
+        height: 80px;
+    }
+
+    main > div, footer {
+        width: 70%;
+        margin: auto;
+    }
 } 
+
+@media only screen and (min-width: 1200px) {
+    nav {
+        div {
+            img {
+                width: 150px;
+    }
+        }
+    }
+
+
+
+    main > div, footer {
+        width: 100%;
+        margin: auto;
+    }
+
+    .organizations ul, .projects ul, .category ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .organizations li, .projects li, .category li {
+        flex: 1 1 300px;
+    }
+    
+}
