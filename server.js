@@ -7,6 +7,12 @@ import path from "path";
 // Import the express package
 import express from "express";
 
+// Import test connection to database
+import { testConnection } from "./src/models/db.js";
+
+// Import getAllOrganizations function
+import { getAllOrganizations } from "./src/models/organizations.js";
+
 // Create the express app
 const app = express();
 
@@ -36,7 +42,7 @@ app.set("views", path.join(__dirname, "src/views"));
 
 
 /* -------------------------------
-* Routes
+* Route Handler
 ---------------------------------- */
 // Home
 app.get("/", async(req, res) => {
@@ -46,7 +52,10 @@ app.get("/", async(req, res) => {
 
 // Organizations
 app.get("/organizations", async(req, res) => {
-    const title = "Our Partner Organizations"
+    const organizations = await getAllOrganizations();
+    console.log(organizations);
+
+    const title = "Our Partner Organizations";
     res.render("organizations", { title });
 });
 
@@ -64,7 +73,13 @@ app.get("/categories", async(req, res) => {
 
 
 // Log app operation
-app.listen(PORT, () => {
-    console.log(`Server is running at http://127.0.0.1:${PORT}`)
-    console.log(`Environment: ${NODE_ENV}`)
+app.listen(PORT, async () => {
+    // Test database connection
+    try {
+        await testConnection();
+        console.log(`Server is running at http://127.0.0.1:${PORT}`)
+        console.log(`Environment: ${NODE_ENV}`)
+    } catch (error) {
+        console.error("Error connecting to the database:", error);
+    } 
 });
