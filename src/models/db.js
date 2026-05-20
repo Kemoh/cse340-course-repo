@@ -1,4 +1,5 @@
 import { Pool } from "pg"
+
 /**
 * Connection pool for PostgreSQL database.
 *
@@ -8,7 +9,7 @@ import { Pool } from "pg"
 *
 * Uses a connection string from environment variables for simplified setup.
 * The connection string format is:
-* postgresql://username:password*@:port/database
+* postgresql://username:password@host:port/database
 */
 const pool = new Pool({
 connectionString: process.env.DB_URL,
