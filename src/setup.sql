@@ -175,3 +175,115 @@ VALUES
     'Port Loko',
     '2026-10-20'
 );
+
+
+
+-- =========================================
+-- CATEGORY TABLE
+-- =========================================
+CREATE TABLE category (
+	category_id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL UNIQUE
+);
+
+
+-- =========================================
+-- PROJECT_CATEGORY JUNCTION TABLE
+-- =========================================
+CREATE TABLE project_category (
+	project_id INTEGER NOT NULL,
+	category_id INTEGER NOT NULL,
+	PRIMARY KEY (project_id, category_id),
+
+	CONSTRAINT fk_project
+		FOREIGN KEY (project_id)
+		REFERENCES project(project_id)
+		ON DELETE CASCADE,
+
+	CONSTRAINT fk_category 
+		FOREIGN KEY (category_id)
+		REFERENCES category(category_id)
+		ON DELETE CASCADE
+);
+
+
+-- =========================================
+-- INSERT SERVICE PROJECT CATEGORIES
+-- =========================================
+INSERT INTO category
+(name)
+VALUES
+('Education'),
+('Environment'),
+('Community Development'),
+('Health'),
+('Agriculture'),
+('Volunteer Service');
+
+
+
+-- =========================================
+-- ASSOCIATE PROJECTS WITH CATEGORIES
+-- =========================================
+INSERT INTO project_category(project_id, category_id)
+VALUES
+
+-- =====================================
+-- BrightFuture Builders Projects
+-- =====================================
+
+--Community Bridge Construction
+(1,3),
+
+--Affordable Housing Initiative
+(2,3),
+
+--School Classroom Expansion
+(3,1),
+
+--Public Water Well Installation
+(4,3),
+
+--Solar Lighting for Communities
+(5,2),
+
+
+-- =====================================
+-- GreenHarvest Growers Projects
+-- =====================================
+
+--Urban Community Garden Project
+(5,6),
+
+--Youth Farming Education Program
+(7,1),
+
+--Neighborhood Composting Initiative
+(8,2),
+
+--School Nutrition Garden
+(9,1),
+
+--Tree and Crop Sustainability Campaign
+(10,5),
+
+
+-- =====================================
+-- UnityServe Volunteers Projects
+-- =====================================
+
+--Community Food Distribution Drive
+(11,6),
+
+--Hospital Volunteer Assistance Program
+(12,4),
+
+--Back-to-School Support Campaign
+(13,1),
+
+--Neighborhood Cleanup Day
+(14,2),
+
+--Senior Citizen Care Outreach
+(15,6);
+

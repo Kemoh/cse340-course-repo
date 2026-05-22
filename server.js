@@ -16,6 +16,9 @@ import { getAllOrganizations } from "./src/models/organizations.js";
 // Import getAllProjects function
 import { getAllProjects } from "./src/models/projects.js";
 
+// Import getAllCategories Function
+import { getAllCategories } from "./src/models/categories.js";
+
 // Create the express app
 const app = express();
 
@@ -69,8 +72,9 @@ app.get("/projects", async(req, res) => {
 
 // Categories
 app.get("/categories", async(req, res) => {
+    const categories = await getAllCategories();
     const title = "Service Categories"
-    res.render("categories", { title });
+    res.render("categories", { title, categories });
 });
 
 
