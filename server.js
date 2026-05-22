@@ -13,6 +13,9 @@ import { testConnection } from "./src/models/db.js";
 // Import getAllOrganizations function
 import { getAllOrganizations } from "./src/models/organizations.js";
 
+// Import getAllProjects function
+import { getAllProjects } from "./src/models/projects.js";
+
 // Create the express app
 const app = express();
 
@@ -53,15 +56,15 @@ app.get("/", async(req, res) => {
 // Organizations
 app.get("/organizations", async(req, res) => {
     const organizations = await getAllOrganizations();
-
     const title = "Our Partner Organizations";
     res.render("organizations", { title, organizations });
 });
 
 // Projects
 app.get("/projects", async(req, res) => {
+    const projects = await getAllProjects();
     const title = "Service Projects"
-    res.render("projects", { title });
+    res.render("projects", { title, projects });
 });
 
 // Categories

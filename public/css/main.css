@@ -133,7 +133,6 @@ nav {
     box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);
 }
 
-/* Organizations Page*/
 /* Page Wrapper */
 .organizations, .projects, .category {
    margin: 1rem auto;
@@ -189,6 +188,25 @@ footer {
     margin-top: 1rem;
     font-size: var(--footer-p);
     padding: 1rem;
+}
+
+/* Rotating 3-color patter */
+.organizations li:nth-child(3n + 1),
+.projects li:nth-child(3n + 1),
+.category li:nth-child(3n + 1) {
+    background: #ffffff;
+}
+
+.organizations li:nth-child(3n + 2),
+.projects li:nth-child(3n + 2),
+.category li:nth-child(3n + 2) {
+    background: #dbeafe;
+}
+
+.organizations li:nth-child(3n),
+.projects li:nth-child(3n),
+.category li:nth-child(3n) {
+    background: #dcfce7;
 }
 
 
