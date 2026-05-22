@@ -138,7 +138,7 @@ nav {
    margin: 1rem auto;
 }
 
-.organizations p {
+.organizations p, .category p {
     font-size: var(--p-size);
     line-height: var(--p-height);
     margin-bottom: 35px;
