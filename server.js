@@ -1,26 +1,17 @@
+// Import the express package
+import express from "express";
+
 // Import file
 import { fileURLToPath } from "url";
 
 // Import path
 import path from "path";
 
-// Import the express package
-import express from "express";
-
 // Import test connection to database
 import { testConnection } from "./src/models/db.js";
 
-// Import getAllOrganizations function
-import { getAllOrganizations } from "./src/models/organizations.js";
-
-// Import getAllProjects function
-import { getAllProjects } from "./src/models/projects.js";
-
-// Import getAllCategories Function
-import { getAllCategories } from "./src/models/categories.js";
-
-// Create the express app
-const app = express();
+// Import router
+import router from "./src/routes.js";
 
 // Defines the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLocaleLowerCase() || "production";
@@ -33,6 +24,10 @@ const __filename = fileURLToPath(import.meta.url);
 
 // Create directory
 const __dirname = path.dirname(__filename);
+
+// Create the express app
+const app = express();
+
 
 /* -------------------------------
 * Configure Express middleware
@@ -47,34 +42,53 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src/views"));
 
 
-/* -------------------------------
-* Route Handler
----------------------------------- */
-// Home
-app.get("/", async(req, res) => {
-    const title = "Home"
-    res.render("home", { title });
+// Middleware to log all incoming requests
+app.use((req, res, next) => {
+    if(NODE_ENV === "development") {
+        console.log(`${req.method} ${req.url}`);
+    }
+    next(); // Pass control to the next middleware or route
 });
 
-// Organizations
-app.get("/organizations", async(req, res) => {
-    const organizations = await getAllOrganizations();
-    const title = "Our Partner Organizations";
-    res.render("organizations", { title, organizations });
+
+// Middleware to make NODE_ENV available to all templates
+app.use((req, res, next) => {
+    res.locals.NODE_ENV = NODE_ENV;
+    next();
 });
 
-// Projects
-app.get("/projects", async(req, res) => {
-    const projects = await getAllProjects();
-    const title = "Service Projects"
-    res.render("projects", { title, projects });
+
+// Use the imported router to handle routes 
+app.use(router);
+
+
+// Catch-all route for 404 errors
+app.use((req, res, next) => {
+    const err = new Error("Page Not Found.");
+    err.status = 404;
+    next(err);
 });
 
-// Categories
-app.get("/categories", async(req, res) => {
-    const categories = await getAllCategories();
-    const title = "Service Categories"
-    res.render("categories", { title, categories });
+
+// Global error handler
+app.use((err, req, res, next) => {
+    // Log error details for debugging
+    console.error("Error occurred:", err.message);
+    console.error("Stack trace:", err.stack);
+
+    // Determine status and template
+    const status = err.status || 500;
+    const template = status === 404 ? "404" : "500";
+
+    // Prepare data for the template
+    const context = {
+        title: status === 404 ? "Page Not Found" : "Server Error",
+        error: err.message,
+        stack: err.stack
+    };
+
+    // Render the appropriate error template
+    res.status(status).render(`errors/${template}`, context);
 });
 
 
