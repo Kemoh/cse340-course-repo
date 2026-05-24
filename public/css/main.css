@@ -1,23 +1,47 @@
 /* Base styles */
 :root {
-  --bg: rgb(239, 245, 247);
-  --text: #1f2937;
+  --bg: #f6f8fb;
+  --surface: rgba(255, 255, 255, 0.92);
+  --surface-strong: #ffffff;
+
+  --text: #111827;
   --muted: #6b7280;
-  --border: 1px solid #e5e7eb;
-  --accent: #004080;
-  --accent-soft: rgba(15, 118, 110, 0.08);
+  --subtle: #9ca3af;
+
+  --border-color: #e5e7eb;
+  --border: 1px solid var(--border-color);
+
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-soft: rgba(37, 99, 235, 0.1);
+
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
   --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 18px 50px rgba(15, 23, 42, 0.12);
+
+  --radius-sm: 12px;
   --radius: 18px;
-  --font: "Segoe UI", Arial, sans-serif;
-  --card: rgba(255, 255, 255, 0.96);
-  --btn: #000;
-  --hover: #009eb9;
-  --h1-size: clamp(1.8rem, 3vw, 2.8rem);
-  --p-size: clamp(1rem, 3vw, 1.3rem);
-  --footer-p: clamp(1rem, 3vw, 1rem);
-  --p-height: 1.6;
-  --h1-height: 1.2;
-  --letter-spacing: -0.02em;
+  --radius-lg: 24px;
+
+  --font: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Inter", Arial, sans-serif;
+
+  --btn: var(--accent);
+  --btn-text: #ffffff;
+
+  /* Typography scale */
+  --h1-size: clamp(1.8rem, 5vw, 3rem);
+  --h2-size: clamp(1.5rem, 3.5vw, 2.5rem);
+  --h3-size: clamp(1.35rem, 2.5vw, 2rem);
+  --p-size: clamp(1.05rem, 1.2vw, 1.125rem);
+
+  --h1-height: 1.1;
+  --h2-height: 1.3;
+  --h3-height: 1.3;
+  --p-height: 1.7;
 }
 
 * {
@@ -26,27 +50,53 @@
     box-sizing: border-box;
 }
 
+/* html, body {
+    height: 100%;
+} */
+
 body {
+    margin: 0;
     font-family: var(--font);
     background: var(--bg);
-    color: #222;
-    line-height: 1.6;
-}
-
-/* Headings */
- h1, h2 {
-    color: var(--accent); 
-    line-height: var(--line-height);
-    letter-spacing: var(--letter-spacing);
-    margin-bottom: 1rem;
-}
-
-h1 {
-    font-size: var(--h1-size);  
+    color: var(--text);
+    line-height: var(--p-height);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 main {
     padding: 0 1rem;
+    flex: 1;
+}
+
+
+h1 {
+  font-size: var(--h1-size);
+  line-height: var(--h1-height);
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  padding-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: var(--h2-size);
+  line-height: var(--h2-height);
+  letter-spacing: -0.02em;
+  font-weight: 650;
+  padding-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: var(--h3-size);
+  line-height: var(--h3-height);
+  font-weight: 600;
+  padding-top: 1.5rem;
+}
+
+p {
+  font-size: var(--p-size);
+  line-height: var(--p-height);
 }
 
 /* Navigation */
@@ -78,11 +128,14 @@ nav {
     button {
         background: none;
         border: none;
+        border-radius: var(--radius-lg);
         padding: 1rem;
         font-size: 1.5rem;
-        color: var(--btn);
+        color: var(--accent);
         cursor: pointer;
+        transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
+}
 
 
 /* Navigation list (second row) */
@@ -115,7 +168,7 @@ nav {
     ul a:hover {
         color: var(--hover);
     }
-} 
+
 
 
 /* Home Page */
@@ -134,40 +187,48 @@ nav {
 }
 
 /* Page Wrapper */
-.organizations, .projects, .category {
+.organizations, .projects, .category, .organization {
    margin: 1rem auto;
 }
 
-.organizations p, .category p {
+.organizations p, .category p, .organization p {
     font-size: var(--p-size);
     line-height: var(--p-height);
-    margin-bottom: 35px;
+    padding-top: 1rem;
 }
 
-.organizations ul, .projects ul, .category ul {
+.organizations ul, .projects ul, .category ul, .organization ul {
     margin: 1rem auto;
-    list-style-type: none;
+    list-style: none;
     display: grid;
     gap: 1.5rem;
 }
 
-.organizations li, .projects li, .category li {
+.organizations li, .projects li, .category li, .organization li {
     padding: 1.5rem;
     text-align: center;
     font-size: var(--p-size);
-    background: var(--card);
+    background: var(--surface);
     border: var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.organizations img {
-    width: 60px;
-    height: 60px;
+.organizations li a, .projects li a, .category li a, .organization li a {
+   color: var(--text);
+}
+
+.organizations img, .organization img {
+    width: 80px;
+    height: 80px;
     display: block;
     text-align: center;
     margin: 0 auto;
+    border: 1px solid var(--muted);
+    border-radius: var(--radius-lg);
+    background: var(--surface-strong);
 }
 
 .projects li {
@@ -175,7 +236,7 @@ nav {
     padding: 1rem;
 }
 
-.organizations li:hover, .projects li:hover, .category li:hover {
+.organizations li:hover, .projects li:hover, .category li:hover, .organization li:hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);
 }
@@ -188,24 +249,28 @@ footer {
     margin-top: 1rem;
     font-size: var(--footer-p);
     padding: 1rem;
+    background: gainsboro;
 }
 
-/* Rotating 3-color patter */
+/* Rotating 3-color pattern */
 .organizations li:nth-child(3n + 1),
 .projects li:nth-child(3n + 1),
-.category li:nth-child(3n + 1) {
+.category li:nth-child(3n + 1),
+.organization li:nth-child(3n + 1) {
     background: #ffffff;
 }
 
 .organizations li:nth-child(3n + 2),
 .projects li:nth-child(3n + 2),
-.category li:nth-child(3n + 2) {
+.category li:nth-child(3n + 2),
+.organization li:nth-child(3n + 2) {
     background: #dbeafe;
 }
 
 .organizations li:nth-child(3n),
 .projects li:nth-child(3n),
-.category li:nth-child(3n) {
+.category li:nth-child(3n),
+.organization li:nth-child(3n) {
     background: #dcfce7;
 }
 
@@ -232,18 +297,13 @@ footer {
         }
     }
 
-    .organizations img {
-        width: 80px;
-        height: 80px;
-    }
-
     main {
         margin: 0 3rem;
     }
 } 
 
 @media only screen and (min-width: 1024px) {
-    .organizations ul, .projects ul, .category ul {
+    .organizations ul, .projects ul, .category ul, .organization ul {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
     }
@@ -251,7 +311,7 @@ footer {
 
 /* Large Devices */
 @media only screen and (min-width: 1200px){
-    .organizations ul, .projects ul, .category ul {
+    .organizations ul, .projects ul, .category ul, .organization ul {
         grid-template-columns: repeat(3, 1fr);
     }
 }
