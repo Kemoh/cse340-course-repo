@@ -50,9 +50,9 @@
     box-sizing: border-box;
 }
 
-/* html, body {
+html, body {
     height: 100%;
-} */
+}
 
 body {
     margin: 0;
@@ -216,7 +216,7 @@ nav {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.organizations li a, .projects li a, .category li a, .organization li a {
+.organization li a {
    color: var(--text);
 }
 
