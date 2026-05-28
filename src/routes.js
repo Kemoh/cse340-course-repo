@@ -3,22 +3,46 @@ import express from "express";
 
 // Import all controller functions
 import { showHomePage } from "./controllers/index.js";
-import { showOrganizationsPage, showOrganizationDetailsPage } from "./controllers/organizations.js";
-import { showProjectsPage } from "./controllers/projects.js";
+
+import { 
+    showOrganizationsPage, showOrganizationDetailsPage 
+} from "./controllers/organizations.js";
+
+import { 
+    showProjectsPage,
+    showProjectDetailsPage
+ } from "./controllers/projects.js";
+
 import { showCategoriesPage } from "./controllers/categories.js";
+
 import { testErrorPage } from "./controllers/errors.js";
+
 
 // Create the express router objext
 const router = express.Router();
 
-// Use the router object to define the pages routes
+/* -----------------------------------------------
+Use the router object to define the pages routes
+-------------------------------------------------- */
+// Home page
 router.get("/", showHomePage);
+
+// Organizations page
 router.get("/organizations", showOrganizationsPage);
+
+// Projects page
 router.get("/projects", showProjectsPage);
+
+// Single project details page
+router.get("/project/:id", showProjectDetailsPage);
+
+// Categories page
 router.get("/categories", showCategoriesPage);
+
+// Organization page
 router.get("/organization/:id", showOrganizationDetailsPage);
 
-// Use the router object to define the error-handling routes
+// Test error page
 router.get("/test-error", testErrorPage);
 
 // Export the router object for use in server.js

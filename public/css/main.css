@@ -85,6 +85,7 @@ h2 {
   letter-spacing: -0.02em;
   font-weight: 650;
   padding-bottom: 1.5rem;
+  color: var(--accent);
 }
 
 h3 {
@@ -187,24 +188,24 @@ nav {
 }
 
 /* Page Wrapper */
-.organizations, .projects, .category, .organization {
+.organizations, .projects, .category, .organization, .project {
    margin: 1rem auto;
 }
 
-.organizations p, .category p, .organization p {
+.organizations p, .category p, .organization p, .project p, .projects p {
     font-size: var(--p-size);
     line-height: var(--p-height);
     padding-top: 1rem;
 }
 
-.organizations ul, .projects ul, .category ul, .organization ul {
+.organizations ul, .projects ul, .category ul, .organization ul, .project ul {
     margin: 1rem auto;
     list-style: none;
     display: grid;
     gap: 1.5rem;
 }
 
-.organizations li, .projects li, .category li, .organization li {
+.organizations li, .projects li, .category li, .organization li, .project li {
     padding: 1.5rem;
     text-align: center;
     font-size: var(--p-size);
@@ -214,6 +215,10 @@ nav {
     box-shadow: var(--shadow);
     backdrop-filter: blur(10px);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.projects li p a {
+    margin: 0;
 }
 
 .organization li a {
@@ -231,12 +236,11 @@ nav {
     background: var(--surface-strong);
 }
 
-.projects li {
+.projects li, .project li {
     text-align: left;
-    padding: 1rem;
 }
 
-.organizations li:hover, .projects li:hover, .category li:hover, .organization li:hover {
+.organizations li:hover, .projects li:hover, .category li:hover, .organization li, .project li:hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);
 }
@@ -244,6 +248,8 @@ nav {
 .category li {
     font-weight: 500;
 }
+
+
 
 footer {
     margin-top: 1rem;

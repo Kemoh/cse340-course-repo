@@ -2,24 +2,35 @@
         <main>
           <div class="projects">
             <h1><%= title %></h1>
-            <h2>Upcoming Service Projects</h2>
+
             <ul>
               <% projects.forEach(project => { %>
                 <li>
-                  <p>
-                    <strong>
-                      Date:
-                      <%= new Date(project.date).toLocaleDateString("en-GB", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric"
-                      }) %>
+                    <!-- Project Date -->
+                     <p>
+                      <strong>
+                      Start Date:
                     </strong>
-                    :
-                    <%= project.title %>
-                    (
-                      <%= project.organization_name %>
-                    )
+                      <%= new Date(project.date).toLocaleDateString("en-GB", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric"
+                      }) %>
+                     </p>
+                    
+                    <!-- Project Title -->
+                    <p>
+                      <strong>
+                    <a href="/project/<%= project.project_id %>">Project Title: </strong><%= project.title %>
+                    </a>
+                    </p>
+                    
+                  <p>
+                    <!-- Organization Name -->
+                    <strong>
+                      <a href="/organization/<%= project.organization_id %>">Implementing Organization:
+                    </strong><%= project.organization_name %>
+                    </a>
                   </p>
                 </li>
             <%  }); %>
