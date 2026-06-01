@@ -11,9 +11,11 @@ import {
 import { 
     showProjectsPage,
     showProjectDetailsPage
- } from "./controllers/projects.js";
+} from "./controllers/projects.js";
 
-import { showCategoriesPage } from "./controllers/categories.js";
+import { showCategoriesPage ,
+         showCategoryDetailsPage
+} from "./controllers/categories.js";
 
 import { testErrorPage } from "./controllers/errors.js";
 
@@ -30,6 +32,9 @@ router.get("/", showHomePage);
 // Organizations page
 router.get("/organizations", showOrganizationsPage);
 
+// Organization page
+router.get("/organization/:id",showOrganizationDetailsPage);
+
 // Projects page
 router.get("/projects", showProjectsPage);
 
@@ -39,8 +44,8 @@ router.get("/project/:id", showProjectDetailsPage);
 // Categories page
 router.get("/categories", showCategoriesPage);
 
-// Organization page
-router.get("/organization/:id", showOrganizationDetailsPage);
+// Single category details page
+router.get("/category/:id", showCategoryDetailsPage);
 
 // Test error page
 router.get("/test-error", testErrorPage);

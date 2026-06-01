@@ -3,35 +3,49 @@
           <div class="projects">
             <h1><%= title %></h1>
 
+            <h2><%= title %></h2>
+
             <ul>
               <% projects.forEach(project => { %>
                 <li>
                     <!-- Project Date -->
                      <p>
                       <strong>
-                      Start Date:
-                    </strong>
-                      <%= new Date(project.date).toLocaleDateString("en-GB", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric"
-                      }) %>
+                        <%= new Date(project.date).toLocaleDateString("en-US", {
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric"
+                        }) %>:
+                      </strong>
+
+                     
+                      <span>
+                        <!-- Project Title -->
+                        <strong>
+                          <a href="/project/<%= project.project_id %>">
+                          <%= project.title %>
+                        </strong>
+                          </a>
+
+                      <!-- Organization Name -->
+                        <strong>
+                          <a href="/organization/<%= project.organization_id %>">
+                            (<%= project.organization_name 
+                            %>)
+                          </a>
+                        </strong>
+                        </span>
                      </p>
-                    
-                    <!-- Project Title -->
-                    <p>
-                      <strong>
-                    <a href="/project/<%= project.project_id %>">Project Title: </strong><%= project.title %>
-                    </a>
-                    </p>
-                    
-                  <p>
-                    <!-- Organization Name -->
-                    <strong>
-                      <a href="/organization/<%= project.organization_id %>">Implementing Organization:
-                    </strong><%= project.organization_name %>
-                    </a>
-                  </p>
+
+                    <!-- Project description -->
+                     <p>
+                      <%= project.description %>
+                     </p>
+
+                    <!-- Project location -->
+                     <p>
+                      <%= project.location %>
+                     </p>
                 </li>
             <%  }); %>
             </ul>
