@@ -1,6 +1,15 @@
 // Import the express package
 import express from "express";
 
+// Import the express session
+import session from "express-session"; 
+
+// Import flash middleware
+import flash from "./src/middleware/flash.js";
+
+// Load SESSION_SECRET from the .env file
+const SESSION_SECRET = process.env.SESSION_SECRET;
+
 // Import file
 import { fileURLToPath } from "url";
 
@@ -32,7 +41,18 @@ const app = express();
 /* -------------------------------
 * Configure Express middleware
 ---------------------------------- */
-// Server static files from the public directory
+// Set up session management
+app.use(session({ secret: SESSION_SECRET, resave: false, saveUninitialized: true, cookie: { maxAge: 60 * 60 * 1000 }}));
+
+// Use flash message middleware
+app.use(flash);
+
+
+// Allow Express to receive and process common POST data
+app.use(express.urlencoded({extended : true}));
+app.use(express.json());
+
+// Serve static files from the public directory
 app.use(express.static(path.join(__dirname, "public")));
 
 // Set EJS as the templating engine

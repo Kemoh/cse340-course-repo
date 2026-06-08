@@ -1,9 +1,12 @@
 // Import any needed model functions
+import { getAllOrganizations } from "../models/organizations.js";
+
 import { getAllProjects,
          getProjectsByOrganizationId,
          getUpcomingProjects,
          getProjectDetailsByProjectId,
-         getCategoriesByProjectId
+         getCategoriesByProjectId,
+         createProject
 } from "../models/projects.js";
 
 
@@ -59,8 +62,59 @@ const showProjectDetailsPage = async (req, res, next) => {
     } 
 };
 
+
+// Insert new service project
+const showNewProjectForm = async (req, res) => {
+    // Get a list of all the organizations from the database
+    const organizations = await getAllOrganizations();
+
+    // Create the title for the view
+    const title = "Add New Service Projects";
+
+    // Render the new project view
+    res.render("new-project", { title, organizations });
+};
+
+
+// Process the new project form
+const processNewProjectForm = async (req, res) => {
+    // Extract form data from req.body
+    const { 
+        organizationId,
+        title, 
+        description, 
+        location, 
+        date
+        } = req.body;
+
+        try {
+            // Create the new project in the database
+            const newProjectId = await createProject(
+                title,
+                description,
+                location,
+                date,
+                organizationId
+            );
+
+            req.flash("success", "New service project created successfully!");
+
+            res.redirect(`/project/${newProjectId}`);
+            
+        } catch (error) {
+            console.log("Error creating new project:", error);
+
+            req.flash("error", "There was an error creating the service project.");
+
+            res.redirect("/new-project");
+        }
+};
+
+
 // Export any controller functions
 export { 
     showProjectsPage,
-    showProjectDetailsPage
+    showProjectDetailsPage,
+    showNewProjectForm,
+    processNewProjectForm
  };

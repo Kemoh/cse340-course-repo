@@ -17,7 +17,7 @@
                         </span>
                         </div>
 
-                        <p>
+                        <p class="organization-description">
                             <%= organization.description %>
                         </p>
 
@@ -29,6 +29,13 @@
                     </li>
                     <% }); %>
                 </ul>
+
+                <!-- Link to new organization form -->
+                 <p>
+                    <a href="/new-organization">
+                    Add a new organization
+                 </a>
+                </p>
             </div>
         </main>
 <%- include("partials/footer") %>

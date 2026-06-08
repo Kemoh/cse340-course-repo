@@ -1,3 +1,4 @@
+import { query } from 'express-validator';
 import db from './db.js';
 
 // Get all categories
@@ -53,7 +54,34 @@ const getProjectsByCategoryId = async (categoryId) => {
 };
 
 
+// Assign a category to a project
+const assigncategoryToProject = async (categoryId, projectId) => {
+    const query = `
+        INSERT INTO project_category(category_id, project_id)
+         VALUES ($1, $2);
+    `;
+
+    await db.query(query, [categoryId, projectId]);
+};
+
+// Update category assigned to a project
+const updateCategoryAssignments = async (projectId, catogoryId) => {
+    // First, remove existing category assignments for the project
+    const deleteQuery = `
+        DELETE FROM project_category
+        WHERE project_id = $1;
+    `;
+
+    await db.query(deleteQuery, [projectId]);
+
+    // Next, add the new category assignments
+    for(const categoryId of categoryIds) {
+        await assigncategoryToProject(categoryId, projectId);
+    }
+}
+
 export { getAllCategories,
          getCategoryByCategoryId,
-         getProjectsByCategoryId
+         getProjectsByCategoryId,
+         updateCategoryAssignments
         };
