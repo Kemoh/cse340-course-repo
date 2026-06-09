@@ -18,13 +18,16 @@ import {
     showProjectsPage,
     showProjectDetailsPage,
     showNewProjectForm,
-    processNewProjectForm
+    processNewProjectForm,
+    showEditProjectForm,
+    processEditProjectForm,
+    projectValidation
 } from "./controllers/projects.js";
 
 import { showCategoriesPage ,
          showCategoryDetailsPage,
          showAssignCategoriesForm,
-         processAssigncategoriesForm
+         processAssignCategoriesForm
 } from "./controllers/categories.js";
 
 import { testErrorPage } from "./controllers/errors.js";
@@ -76,13 +79,20 @@ router.post("/edit-organization/:id", organizationValidation, processEditOrganiz
 router.get("/new-project", showNewProjectForm);
 
 // POST route to handle the new project form submission
-router.post("/new-project", processNewProjectForm);
+router.post("/new-project", projectValidation, processNewProjectForm);
 
 // GET route to show the assign categories form
 router.get("/assign-categories/:projectId", showAssignCategoriesForm);
 
 // POST route to handle the assign categories form submission
-router.post("/assign-categories/:projectId", processAssigncategoriesForm);
+router.post("/assign-categories/:projectId", processAssignCategoriesForm);
+
+// GET Route to display the edit project form
+router.get("/edit-project/:id", showEditProjectForm);
+
+// POST Route to handle the edit project form submission
+router.post("/edit-project/:id", projectValidation, processEditProjectForm);
+
 
 // Export the router object for use in server.js
 export default router;

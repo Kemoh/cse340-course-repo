@@ -73,7 +73,7 @@ const showAssignCategoriesForm = async (req, res) => {
 };
 
 
-const processAssigncategoriesForm = async (req, res) => {
+const processAssignCategoriesForm = async (req, res) => {
     // Get the project ID from request parameters
     const projectId = req.params.projectId;
     
@@ -99,5 +99,5 @@ const processAssigncategoriesForm = async (req, res) => {
 export { showCategoriesPage,
          showCategoryDetailsPage,
          showAssignCategoriesForm,
-         processAssigncategoriesForm
+         processAssignCategoriesForm
         };

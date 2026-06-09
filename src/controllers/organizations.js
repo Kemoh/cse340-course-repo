@@ -41,6 +41,8 @@ const organizationValidation = [
         .withMessage("Please provide a valid email address.")
 ];
 
+
+
 // Define any controller functions
 const showOrganizationsPage = async (req, res) => {
     const organizations = await getAllOrganizations();

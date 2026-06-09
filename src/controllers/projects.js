@@ -6,8 +6,57 @@ import { getAllProjects,
          getUpcomingProjects,
          getProjectDetailsByProjectId,
          getCategoriesByProjectId,
-         createProject
+         createProject,
+         updateProject
 } from "../models/projects.js";
+
+// Import the validation functions from express validator
+import { body, validationResult } from "express-validator";
+
+
+/** --------------------------------------------------------------
+ *  Define validation and sanitization rules for project form
+ * ------------------------------------------------------------*/
+
+// Define validation rules for project form
+const projectValidation = [
+    // title field
+    body("title")
+        .trim()
+        .notEmpty()
+        .withMessage("Project title is required.")
+        .isLength({ min: 3, max: 150 })
+        .withMessage("Project title must be between 3 and 150 characters."),
+
+    // description field
+    body("description")
+        .trim()
+        .notEmpty()
+        .withMessage("Project description is required.")
+        .isLength({ max: 500 })
+        .withMessage("Project description cannot exceed 500 characters."),
+
+    // location field
+    body("location")
+        .trim()
+        .notEmpty()
+        .withMessage("Project location is required.")
+        .isLength({ min: 2, max: 150 })
+        .withMessage("Project location must be between 2 and 150 characters."),
+
+    // date field
+    body("date")
+        .notEmpty()
+        .withMessage("Project date is required.")
+        .withMessage("Please provide a valid date."),
+
+    // organization field
+    body("organizationId")
+        .notEmpty()
+        .withMessage("Please select an organization.")
+        .isInt({ min: 1 })
+        .withMessage("A valid organization must be selected.")
+];
 
 
 // Number of projects to display on the main projects page
@@ -111,10 +160,72 @@ const processNewProjectForm = async (req, res) => {
 };
 
 
+const showEditProjectForm = async (req, res) => {
+    // Get the project ID from req.params.id
+    const projectId = req.params.id;
+
+    // Call the model function and pass in the projectId to get the project details by it's ID
+    const projectDetails = await getProjectDetailsByProjectId(projectId);
+
+    // Call the model function to get all organizations
+    const organizations = await getAllOrganizations();
+
+    // Give the form a title
+    const title = "Edit Service Project";
+
+    // render the form with the required data
+    res.render("edit-project", { title, 
+                                 projectDetails, 
+                                 organizations 
+                                });
+};
+
+
+
+const processEditProjectForm = async (req, res) => {
+    // Get the project ID from req.params.id
+    const projectId = req.params.id;
+
+    // Get the data from req.body
+    const { title, description, location, date, organizationId } = req.body;
+
+     // Check for validation errors
+    const results = validationResult(req);
+     if(!results.isEmpty()) {
+        // validation failed - loop through errors
+        results.array().forEach((error) => {
+            req.flash("error", error.msg);
+        });
+
+    // Redirect back to the edit project form
+        return res.redirect("/edit-project/" + projectId);
+    }
+
+    // Call the model function to update the project
+    await updateProject(
+        projectId,
+        title,
+        description,
+        location,
+        date,
+        organizationId
+    );
+
+     // Set a success flash message
+    req.flash("success", "Project updated successfully!");
+
+    // Redirect to the project details page using its ID
+    res.redirect(`/project/${projectId}`);
+};
+
+
 // Export any controller functions
 export { 
     showProjectsPage,
     showProjectDetailsPage,
     showNewProjectForm,
-    processNewProjectForm
+    processNewProjectForm,
+    showEditProjectForm,
+    processEditProjectForm,
+    projectValidation
  };
