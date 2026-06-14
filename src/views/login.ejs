@@ -1,0 +1,40 @@
+<%- include("partials/header") %>
+<main>
+    <h1><%= title %></h1>
+
+    <form action="/login" method="POST">
+
+        <!-- User email -->
+        <div class="form-group">
+            <label for="email">
+                Email (Username):
+            </label>
+
+            <input 
+            type="email" 
+            id="email" 
+            name="email"
+            maxlength="255"  
+            required >
+        </div>
+
+            <label for="password">
+                Password:
+            </label>
+
+            <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            maxlength="150"
+            required>
+        </div>
+
+        
+        <!-- Login  -->
+        <button type="submit">
+            Login
+        </button>
+    </form>
+</main>
+<%- include("partials/footer") %>

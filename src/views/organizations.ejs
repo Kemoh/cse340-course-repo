@@ -33,10 +33,12 @@
 
 
             <!-- Link to new organization form -->
-             <p>
-                <a href="/new-organization">
-                    Add New Organization
-                </a>
+            <p>
+                <% if (user && user.role_name === 'admin') { %>
+                    <a href="/new-organization">
+                        Add New Organization
+                    </a>
+                    <% } %>
             </p>
         </main>
 <%- include("partials/footer") %>

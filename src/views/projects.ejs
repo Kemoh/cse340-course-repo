@@ -53,9 +53,11 @@
 
           <!-- New project form link -->
            <p>
-            <a href="/new-project">
+            <% if (user && user.role_name === 'admin') { %>
+              <a href="/new-project">
               Add New Service Project
-            </a>
+              </a>
+            <% } %>
            </p>
         </main>
 <%- include("partials/footer") %>

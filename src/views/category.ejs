@@ -18,12 +18,14 @@
             </ul>
           </div>
 
-
+        <!-- Link to edit category form -->
           <div>
             <p>
+              <% if (user && user.role_name === 'admin') { %>
               <a href="/edit-category/<%= categoryDetails.category_id %>">
                 Edit Category
               </a>
+              <% } %>
             </p>
           </div>
         </main>

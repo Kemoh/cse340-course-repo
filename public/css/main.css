@@ -176,7 +176,7 @@ nav {
 
 
 /* Home Page */
-.hero-image {
+.hero-image, .dashboard {
     margin-top: 1rem;
     padding: 1rem;
     border: var(--border);
@@ -188,7 +188,7 @@ nav {
     height: auto;
 }
 
-.hero-image img {
+.hero-image img, .dashboard {
     width: 100%;
     height: auto;
     display: block;
@@ -346,12 +346,12 @@ form {
 .form-group label {
     display: block;
     color: purple;
-    /* padding-top: 1rem; */
 }
 
 .form-group input[type=text],
             input[type=email],
             input[type=date],
+            input[type=password],
             select,
             textarea
             {
@@ -477,7 +477,6 @@ button[type=submit]:focus {
         width: 150px;
         height: auto;
     }
-
 
     .organizations ul, .projects ul, .categories ul, .category ul, .organization ul {
         grid-template-columns: repeat(3, 1fr);

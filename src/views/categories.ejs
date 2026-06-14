@@ -18,9 +18,11 @@
   <div>
     <!-- Link to new category form -->
     <p>
-      <a href="/new-category">
-        Add New Category
-      </a>
+      <% if (user && user.role_name === 'admin') { %>
+        <a href="/new-category">
+          Add New Category
+        </a>
+        <% } %>
     </p>
   </div>
 </main>

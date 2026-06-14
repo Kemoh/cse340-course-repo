@@ -10,6 +10,12 @@
 
                 <div class="hero-image">
                     <img src="/images/cse340-service-network.png" alt="CSE 340 Service Network Logo">
+
+                     <div class="dashboard">
+                    <% if(isLoggedIn) { %>
+                        <p><a href="/dashboard">My Dashboard</a></p>
+                   <% } %>
+                </div>
                 </div>
             </div>
         </main>
