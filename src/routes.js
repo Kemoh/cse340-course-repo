@@ -45,7 +45,8 @@ import { showUserRegistrationForm,
          processLogout,
          requireLogin,
          showDashboard,
-         requireRole
+         requireRole,
+         showAllRegisteredUsers
 } from "./controllers/users.js"; 
 
 
@@ -183,6 +184,13 @@ router.get("/logout", processLogout);
 
 // GET Route to display user dashboard
 router.get("/dashboard", requireLogin, showDashboard);
+
+// GET Route to display users page
+router.get("/users", 
+           requireLogin, 
+           requireRole("admin"), 
+           showAllRegisteredUsers
+        );
 
 
 // Export the router object for use in server.js

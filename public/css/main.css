@@ -417,6 +417,71 @@ button[type=submit]:focus {
     padding-bottom: 1rem;
 }
 
+
+
+.users-page {
+    width: 100%;
+    max-width: 1200px;
+    /* margin: 0 auto;
+    padding: 1rem; */
+}
+
+/* .users-page h1 {
+    margin-bottom: 0.5rem;
+} */
+
+.users-page h2 {
+    margin-top: 1rem;
+} 
+
+/* .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+} */
+
+.users-table {
+    width: 100%;
+    /* min-width: 600px; */
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.users-table thead {
+    background: #1f2937;
+    color: #fff;
+}
+
+.users-table th,
+.users-table td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+    word-break: break-word;
+}
+
+.users-table th {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.users-table td {
+    font-size: 0.8rem;
+    color: #374151;
+}
+
+.users-table tbody tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+.users-table tbody tr:hover {
+    background: #f3f4f6;
+}
+
+
 /* Medium Devices */
 @media only screen and (min-width: 768px) {
     nav {
@@ -441,6 +506,18 @@ button[type=submit]:focus {
 
     main {
         margin: 0 5rem;
+    }
+
+    .users-page {
+        padding: 0.75rem;
+    }
+
+    .users-table th {
+    font-size: 1.1rem;
+    }
+
+   .users-table td {
+    font-size: 1rem;
     }
 } 
 
@@ -467,6 +544,14 @@ button[type=submit]:focus {
         grid-row: 2;
         grid-column: 1 / 4;
     }
+
+    .users-table th {
+    font-size: 1.2rem;
+    }
+
+   .users-table td {
+    font-size: 1.1rem;
+    }
 }
 
 
@@ -480,5 +565,13 @@ button[type=submit]:focus {
 
     .organizations ul, .projects ul, .categories ul, .category ul, .organization ul {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .users-table th {
+    font-size: 1.3rem;
+    }
+
+   .users-table td {
+    font-size: 1.2rem;
     }
 }

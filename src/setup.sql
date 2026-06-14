@@ -306,9 +306,6 @@ INSERT INTO roles (role_name, role_description) VALUES
     ('user', 'Standard user with basic access'),
     ('admin', 'Administrator with full system access');
 
--- Verify the data was inserted
-SELECT * FROM roles;
-
 
 -- =====================================
 -- Create the users table
@@ -321,3 +318,7 @@ CREATE TABLE users (
     role_id INTEGER REFERENCES roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+
+-- UPDATE users SET role_id = (SELECT role_id FROM roles WHERE role_name = 'admin') WHERE email = 'admin@example.com';
