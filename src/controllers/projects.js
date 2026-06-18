@@ -7,7 +7,10 @@ import { getAllProjects,
          getProjectDetailsByProjectId,
          getCategoriesByProjectId,
          createProject,
-         updateProject
+         updateProject,
+         addVolunteerToProject,
+         removeVolunteerFromProject,
+         getVolunteerStatus
 } from "../models/projects.js";
 
 // Import the validation functions from express validator
@@ -97,6 +100,16 @@ const showProjectDetailsPage = async (req, res, next) => {
         // Update the service project details page to add the category tags for that project
         const categories = await getCategoriesByProjectId(projectId);
 
+
+        // Check whether the logged-in user is already volunteering
+        let isVolunteer = false;
+
+        if(req.session && req.session.user) {
+            isVolunteer = await getVolunteerStatus(
+                req.session.user.user_id, projectId
+            );
+        }
+
         // Title of the service project details page
         const title = `${projectDetails.title}`;
 
@@ -104,7 +117,9 @@ const showProjectDetailsPage = async (req, res, next) => {
         res.render("project", { title, 
                                 projectDetails,
                                 organization, 
-                                categories 
+                                categories,
+                                isVolunteer,
+                                user: req.session.user
                             });
     } catch (error) {
         next(error)
@@ -119,6 +134,8 @@ const showNewProjectForm = async (req, res) => {
 
     // Create the title for the view
     const title = "Add New Service Projects";
+
+    console.log("Redirecting to:", `/project/${projectId}`);
 
     // Render the new project view
     res.render("new-project", { title, organizations });
@@ -219,6 +236,143 @@ const processEditProjectForm = async (req, res) => {
 };
 
 
+
+// Add current user as a volunteer for a project
+const addVolunteerForProject = async (req, res, next) => {
+  try {
+    if (!req.session || !req.session.user) {
+      req.flash("error", "You must be signed in to volunteer.");
+      return res.redirect("/login");
+    }
+
+    const userId = req.session.user.user_id;
+
+    const projectId = req.params.id;
+
+    if (Number.isNaN(projectId)) {
+      req.flash("error", "Invalid project id.");
+      return res.redirect("/");
+    }
+
+    const isVolunteer = await getVolunteerStatus(userId, projectId);
+
+    if (!isVolunteer) {
+      // addVolunteerToProject should return the volunteer_id (or throw on failure)
+      const volunteerId = await addVolunteerToProject(userId, projectId);
+
+      req.flash("success", "You are now volunteering for this project.");
+      
+      if (process.env.ENABLE_SQL_LOGGING === "true") {
+        console.log(`User ${userId} volunteered for project ${projectId} (volunteer_id=${volunteerId})`);
+      }
+    } 
+    else {
+      req.flash("alert.success", "You are already volunteering for this project.");
+    }
+
+    return res.redirect(`/project/${projectId}`);
+  } 
+  catch (error) {
+    // log and forward error to error handler
+    console.error("Error in addVolunteerForProject:", error);
+    next(error);
+  }
+};
+
+
+// Remove current user as a volunteer for a project
+const removeVolunteerForProject = async (req, res, next) => {
+  try {
+    if (!req.session || !req.session.user) {
+      req.flash("error", "You must be signed in to change volunteer status.");
+      return res.redirect("/login");
+    }
+
+    const userId = req.session.user.user_id;
+
+    const projectId = req.params.id;
+
+    if (Number.isNaN(projectId)) {
+      req.flash("error", "Invalid project id.");
+      return res.redirect("/");
+    }
+
+    const isVolunteer = await getVolunteerStatus(userId, projectId);
+
+    if (isVolunteer) {
+      // removeVolunteerFromProject should soft-delete and return volunteer_id
+      const volunteerId = await removeVolunteerFromProject(userId, projectId);
+
+      req.flash("success", "You are no longer volunteering for this project.");
+
+      if (process.env.ENABLE_SQL_LOGGING === "true") {
+        console.log(`User ${userId} removed volunteer record ${volunteerId} for project ${projectId}`);
+      }
+    } 
+    else {
+      req.flash("alert.success", "You are not volunteering for this project.");
+    }
+
+    return res.redirect(`/project/${projectId}`);
+  } 
+  catch (error) {
+    console.error("Error in removeVolunteerForProject:", error);
+    next(error);
+  }
+};
+
+
+
+
+
+
+// Add current user as a volunteer for a project
+// const addVolunteerForProject = async (req, res, next) => {
+//     try {
+//         const userId = req.session.user.user_id;
+//         const projectId = req.params.id;
+        
+
+//         const isVolunteer = await getVolunteerStatus(userId, projectId);
+
+//         if(!isVolunteer) {
+//             await addVolunteerToProject(userId, projectId);
+//             req.flash("success", "You are now volunteering for this project.");
+//         } else {
+//             req.flash("error", "You are already volunteering for this project.");
+//         }
+
+//         res.redirect(`/project/${projectId}`);
+        
+//     } catch (error) {
+//         next(error);
+//     }
+// };
+
+
+// Remove current user as a volunteer for a project
+// const removeVolunteerForProject = async (req, res, next) => {
+//   try {
+//     const userId = req.session.user.user_id;
+//     const projectId = req.params.id;
+
+//     const isVolunteer = await getVolunteerStatus(userId, projectId);
+
+//     if(isVolunteer) {
+//       await removeVolunteerFromProject(userId, projectId);
+//       req.flash("success", "You are no longer volunteering for this project.");
+//     } else {
+//       req.flash("error", "You are not volunteering for this project.");
+//     }
+
+//     res.redirect(`/project/${projectId}`);
+    
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+
 // Export any controller functions
 export { 
     showProjectsPage,
@@ -227,5 +381,7 @@ export {
     processNewProjectForm,
     showEditProjectForm,
     processEditProjectForm,
-    projectValidation
+    projectValidation,
+    addVolunteerForProject,
+    removeVolunteerForProject
  };

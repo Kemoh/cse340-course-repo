@@ -320,5 +320,41 @@ CREATE TABLE users (
 );
 
 
+-- =====================================
+-- Update the users table to include user role
+-- =====================================
+UPDATE users SET role_id = (SELECT role_id FROM roles WHERE role_name = 'admin') WHERE email = 'admin@example.com';
 
--- UPDATE users SET role_id = (SELECT role_id FROM roles WHERE role_name = 'admin') WHERE email = 'admin@example.com';
+
+-- =========================================
+-- Project Volunteer TABLE
+-- This table connects users and project in a 
+-- many-to-many relationship
+-- This lets one user volunteer for many 
+-- projects and one project have many volunteers.
+-- =========================================
+CREATE TABLE project_volunteers (
+  volunteer_id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  project_id INT NOT NULL,
+  volunteered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_user FOREIGN KEY (user_id)
+    REFERENCES users(user_id) ON DELETE CASCADE,
+  CONSTRAINT fk_project FOREIGN KEY (project_id)
+    REFERENCES project(project_id) ON DELETE CASCADE,
+  CONSTRAINT unique_volunteer UNIQUE (user_id, project_id)
+);
+
+
+-- =========================================
+-- Add soft delete and metadata to 
+-- project_volunteers
+-- =========================================
+ALTER TABLE project_volunteers
+ADD COLUMN active BOOLEAN DEFAULT TRUE;
+
+-- =========================================
+-- Add Index to speed up user lookups
+-- =========================================
+CREATE INDEX IF NOT EXISTS idex_project_volunteers_user_active
+ON project_volunteers(user_id, active);

@@ -22,7 +22,8 @@ import {
     projectValidation,
     showEditProjectForm,
     processEditProjectForm,
-    
+    addVolunteerForProject,
+    removeVolunteerForProject
 } from "./controllers/projects.js";
 
 
@@ -73,6 +74,12 @@ router.get("/projects", showProjectsPage);
 
 // Single project details page
 router.get("/project/:id", showProjectDetailsPage);
+
+// POST route to volunteer for a project
+router.post("/project/:id/volunteer", requireLogin, addVolunteerForProject);
+
+// POST route to remove yourself as a volunteer
+router.post("/project/:id/unvolunteer", requireLogin, removeVolunteerForProject);
 
 // Categories page
 router.get("/categories", showCategoriesPage);

@@ -50,9 +50,34 @@
                       </a>
                   <%  }); %>
                   </div>
+
+                  <!-- Volunteer section -->
+                   
+                    <% if(user) { %>
+                      
+                        <% if(isVolunteer) { %>
+                          <p>You are volunteering for this project.</p>
+
+                          <form action="/project/<%= projectDetails.project_id %>/unvolunteer" method="POST">
+                            
+                            <button type="submit" aria-label="Stop volunteering for <%= projectDetails.title %>">Unvolunteer</button>
+                          </form>
+
+                      <%  } else { %>
+                        <form action="/project/<%= projectDetails.project_id %>/volunteer" method="POST">
+
+                        <button type="submit" aria-label="Volunteer for <%= projectDetails.title %>">Volunteer</button>
+                        </form>
+                     <% } %>
+                    
+                   <% } else { %>
+                    <a href="/login" class="btn btn-outline-primary">Sign in to volunteer</a>
+<% } %>%>
+                   
                 </li>
             </ul>
-          </div>
+          <
+
            <!-- Link to assign-categories form -->
            <div>
             <% if (user && user.role_name === 'admin') { %>
@@ -62,7 +87,7 @@
             <% } %>
            </div>
 
-           <!-- Link to assign-categories form -->
+           <!-- Link to edit project form -->
            <p>
             <% if (user && user.role_name === 'admin') { %>
             <a href="/edit-project/<%= projectDetails.project_id %>">

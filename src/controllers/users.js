@@ -1,11 +1,11 @@
-// Import the bcrypt library
 import bcrypt from "bcrypt";
 
-// Import createUser
 import { createUser,
          authenticateUser,
          getAllRegisteredUsers
  } from "../models/users.js";
+
+import { getVolunteerProjects } from "../models/projects.js";
 
 
 // Create the registration form 
@@ -113,12 +113,19 @@ const requireLogin = (req, res, next ) => {
 };
 
 // User dashboard
-const showDashboard = (req, res) => {
+const showDashboard = async (req, res) => {
     const user = req.session.user;
+    console.log("User ID:", req.session.user);
+
+
+    const volunteerProjects = await getVolunteerProjects(user.user_id);
+
+    console.log("Dashboard volunteerProjects:", volunteerProjects);
     res.render("dashboard", { title: "Dashboard",
+                              user,
                               name: user.name,
                               email: user.email,
-                              role: user.role_name
+                              volunteerProjects
                             });
 };
 

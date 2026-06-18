@@ -1,18 +1,38 @@
 <%- include("partials/header") %>
 <main>
-    <h1><%= title %></h1>
+    <div class="dashboard">
+        <h1><%= title %></h1>
 
-    <div>
-        <p><strong>Name:</strong> <%= name %></p>
-        <p><strong>Username:</strong> <%= email %></p>
 
-        <p><% if (user && user.role_name === 'admin') { %>
-        <a href="/users">
-            View Registered Users
-        </a>
-        <% } %>
+        <p><strong>Name:</strong> <%= name %></p> <p><strong>Username:</strong> <%= email %></p>
+        <p><% if(user && user.role_name === "admin") { %>
+             <a href="/users">View Registered Users</a> 
+           <% }%>
         </p>
+
+        <h2>My Volunteered Projects:</h2>
+
+        <% if(volunteerProjects && volunteerProjects.length > 0) { %>
+            <ul>
+                <% volunteerProjects.forEach(project => { %>
+                    <li>
+                        <a href="/project/<%= project.project_id %>">
+                            <%= project.title %>
+                        </a>
+
+                        <form action="/project/<%= project.project_id %>/unvolunteer" method="POST">
+                            <button type="submit">
+                                Unvolunteer
+                            </button>
+                        </form>
+                    </li>
+                    
+               <% }) %>
+            </ul>
+       <% } else { %>
+        <p>You are not volunteering for any project yet.</p>
+      <% } %>
+
     </div>
-    
 </main>
 <%- include("partials/footer") %>
