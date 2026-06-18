@@ -1,99 +1,90 @@
 <%- include("partials/header") %>
-        <main>
-          <div class="project">
+<main>
+  <div class="project">
+    <h1><%= title %> Details</h1>
 
-            <h1><%= title %> Details</h1>
+    <div class="title">
+      <h2><%= projectDetails.title %></h2>
+    </div>
 
-            <div class="title">
-              <h2><%= title %></h2>
-            </div>
-            
-            <ul>
-                <li>
+    <ul>
+      <li>
+        <!-- Description -->
+        <p><%= projectDetails.description %></p>
 
-                  <!-- Description -->
-                  <p>
-                    <%= projectDetails.description %>
-                  </p>
+        <!-- Date -->
+        <p>
+          <strong>Date:</strong>
+          <%= new Date(projectDetails.date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          }) %>
+        </p>
 
-                  <!-- Date -->
-                  <p>
-                    <strong>Date:</strong>
-                      <%= new Date(projectDetails.date).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric"
-                      }) %>
-                  </p>
+        <!-- Location -->
+        <p>
+          <strong>Location:</strong>
+          <%= projectDetails.location %>
+        </p>
 
-                  <!-- Location -->
-                  <p>
-                    <strong>Location:</strong>
-                    <%= projectDetails.location %>
-                  </p>
+        <!-- Partner organization name -->
+        <p>
+          <strong>Partner Organization:</strong>
+          <a href="/organization/<%= projectDetails.organization_id %>">
+            <%= projectDetails.organization_name %>
+          </a>
+        </p>
 
-                  <!-- Partner organization name -->
-                  <p>
-                    <strong>Partner Organization:</strong>
-                    <a href="/organization/<%= projectDetails.organization_id %>"><%= projectDetails.organization_name %>
-                    </a>
-                    
-                  </p>
-
-                  <div class="category-tag">
-                    <strong>Categories</strong>
-                    <% categories.forEach(category => { %>
-                      <a href="/category/<%= category.category_id %>">
-                        
-                        <div class="category-tag-name"><%= category.name %>
-                        </div>
-                      </a>
-                  <%  }); %>
-                  </div>
-
-                  <!-- Volunteer section -->
-                   
-                    <% if(user) { %>
-                      
-                        <% if(isVolunteer) { %>
-                          <p>You are volunteering for this project.</p>
-
-                          <form action="/project/<%= projectDetails.project_id %>/unvolunteer" method="POST">
-                            
-                            <button type="submit" aria-label="Stop volunteering for <%= projectDetails.title %>">Unvolunteer</button>
-                          </form>
-
-                      <%  } else { %>
-                        <form action="/project/<%= projectDetails.project_id %>/volunteer" method="POST">
-
-                        <button type="submit" aria-label="Volunteer for <%= projectDetails.title %>">Volunteer</button>
-                        </form>
-                     <% } %>
-                    
-                   <% } else { %>
-                    <a href="/login" class="btn btn-outline-primary">Sign in to volunteer</a>
-<% } %>%>
-                   
-                </li>
-            </ul>
-          <
-
-           <!-- Link to assign-categories form -->
-           <div>
-            <% if (user && user.role_name === 'admin') { %>
-            <a href="/assign-categories/<%= projectDetails.project_id %>">
-              Assign Category To Project
+        <div class="category-tag">
+          <strong>Categories</strong>
+          <% categories.forEach(category => { %>
+            <a href="/category/<%= category.category_id %>">
+              <div class="category-tag-name"><%= category.name %></div>
             </a>
-            <% } %>
-           </div>
+          <% }); %>
+        </div>
 
-           <!-- Link to edit project form -->
-           <p>
-            <% if (user && user.role_name === 'admin') { %>
-            <a href="/edit-project/<%= projectDetails.project_id %>">
-              Edit Service Project
-            </a>
-            <% } %>
-          </p>
-        </main>
+        <!-- Volunteer section -->
+        <% if (user) { %>
+          <% if (isVolunteer) { %>
+            <p>You are volunteering for this project.</p>
+            <form action="/project/<%= projectDetails.project_id %>/unvolunteer" method="POST">
+
+              <button type="submit" aria-label="Stop volunteering for <%= projectDetails.title %>">
+                Unvolunteer
+              </button>
+            </form>
+          <% } else { %>
+            <form action="/project/<%= projectDetails.project_id %>/volunteer" method="POST">
+              <button type="submit" aria-label="Volunteer for <%= projectDetails.title %>">
+                Volunteer
+              </button>
+            </form>
+          <% } %>
+        <% } else { %>
+          <a href="/login" class="btn btn-outline-primary">Sign in to volunteer</a>
+        <% } %>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Link to assign-categories form -->
+  <div>
+    <% if (user && user.role_name === 'admin') { %>
+      <a href="/assign-categories/<%= projectDetails.project_id %>">
+        Assign Category To Project
+      </a>
+    <% } %>
+  </div>
+
+  <!-- Link to edit project form -->
+  <p>
+    <% if (user && user.role_name === 'admin') { %>
+      <a href="/edit-project/<%= projectDetails.project_id %>">
+        Edit Service Project
+      </a>
+    <% } %>
+  </p>
+</main>
 <%- include("partials/footer") %>

@@ -5,7 +5,7 @@ import { createUser,
          getAllRegisteredUsers
  } from "../models/users.js";
 
-import { getVolunteerProjects } from "../models/projects.js";
+import { getVolunteerProjectsByUser } from "../models/projects.js";
 
 
 // Create the registration form 
@@ -112,21 +112,25 @@ const requireLogin = (req, res, next ) => {
     next();
 };
 
+
+
 // User dashboard
-const showDashboard = async (req, res) => {
+const showDashboard = async (req, res, next) => {
+  try {
     const user = req.session.user;
-    console.log("User ID:", req.session.user);
 
+    const volunteerProjects = await getVolunteerProjectsByUser(user.user_id);
 
-    const volunteerProjects = await getVolunteerProjects(user.user_id);
-
-    console.log("Dashboard volunteerProjects:", volunteerProjects);
-    res.render("dashboard", { title: "Dashboard",
-                              user,
-                              name: user.name,
-                              email: user.email,
-                              volunteerProjects
-                            });
+    res.render("dashboard", {
+      title: "Dashboard",
+      user,
+      name: user.name,
+      email: user.email,
+      volunteerProjects
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 

@@ -333,28 +333,36 @@ UPDATE users SET role_id = (SELECT role_id FROM roles WHERE role_name = 'admin')
 -- This lets one user volunteer for many 
 -- projects and one project have many volunteers.
 -- =========================================
-CREATE TABLE project_volunteers (
-  volunteer_id SERIAL PRIMARY KEY,
-  user_id INT NOT NULL,
-  project_id INT NOT NULL,
-  volunteered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_user FOREIGN KEY (user_id)
-    REFERENCES users(user_id) ON DELETE CASCADE,
-  CONSTRAINT fk_project FOREIGN KEY (project_id)
-    REFERENCES project(project_id) ON DELETE CASCADE,
-  CONSTRAINT unique_volunteer UNIQUE (user_id, project_id)
-);
+-- CREATE TABLE project_volunteers (
+--   volunteer_id SERIAL PRIMARY KEY,
+--   user_id INT NOT NULL,
+--   project_id INT NOT NULL,
+--   volunteered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--   CONSTRAINT fk_user FOREIGN KEY (user_id)
+--     REFERENCES users(user_id) ON DELETE CASCADE,
+--   CONSTRAINT fk_project FOREIGN KEY (project_id)
+--     REFERENCES project(project_id) ON DELETE CASCADE,
+--   CONSTRAINT unique_volunteer UNIQUE (user_id, project_id)
+-- );
 
 
 -- =========================================
 -- Add soft delete and metadata to 
 -- project_volunteers
 -- =========================================
-ALTER TABLE project_volunteers
-ADD COLUMN active BOOLEAN DEFAULT TRUE;
+-- ALTER TABLE project_volunteers
+-- ADD COLUMN active BOOLEAN DEFAULT TRUE;
 
 -- =========================================
 -- Add Index to speed up user lookups
 -- =========================================
-CREATE INDEX IF NOT EXISTS idex_project_volunteers_user_active
-ON project_volunteers(user_id, active);
+-- CREATE INDEX IF NOT EXISTS idex_project_volunteers_user_active
+-- ON project_volunteers(user_id, active);
+
+
+-- JOIN TABLE FOR USERS(VOLUNTEERS) AND PROJECT
+CREATE TABLE project_volunteers (
+  user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
+  project_id INTEGER REFERENCES projects(project_id) ON DELETE CASCADE,
+  PRIMARY KEY (user_id, project_id)
+);
